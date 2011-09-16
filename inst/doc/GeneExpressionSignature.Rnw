@@ -1,0 +1,151 @@
+%\VignetteIndexEntry{GeneExpressionSignature}
+%\VignetteKeywords{signature, aggragate, distance}
+%\VignettePackage{GeneExpressionSignature}
+
+\documentclass[a4paper]{article}
+
+\usepackage{times}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\title{Computing pairwise distances between different biological states}
+\author{Yang Cao, Lu Han, Fei Li, Xiaochen Bo}
+
+\begin{document}
+\bibliographystyle{plainnat}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+The \emph{GeneExpressionSignature} package utilizes gene expression profile to measure the similarity between different biological states. The similarity metric implemented here is mentioned in \citep{iorio2010discovery}. A further description of the measurement methods based on gene expression signature can be found in Lamb\citep{lamb2006connectivity}, Hu\citep{hu2009human} and Iorio\citep{iorio2010discovery}.
+
+\section{Getting Started}
+
+The basic analysis process based on gene expression signature can be divided into the following steps: data preprocessing, aggregating, and similarity measuring. This package includes the functions used in aggregating and similarity measuring. 
+
+\subsection{Data}
+
+Once the expression data is properly preprocessed, the Protype Ranked List (PRL) can be obtained by the relative ranking of the gene expression fold-change ratio. Here, one or several PRLs may be needed to describe a responsive state. 
+
+As an example, we load the PRLs from sample data first. This {\it PRLs} is composed of 10 columns corresponding to six compounds, so the PRLs should be a $22283*10$ matrix, where 22283 is the length of gene expression profile. The values are given as rank scores.
+
+<<GeneExpressionSignature>>=
+library(GeneExpressionSignature)
+PRLs <- as.matrix(read.table(system.file("extdata/example_PRLs.txt",
+package="GeneExpressionSignature")))
+states <- read.table(system.file("extdata/example_states.txt",
+package="GeneExpressionSignature"))
+PRLs[c(1:10),c(1:3)]
+states
+@
+
+\subsection{Aggregating}
+
+If in the cases that multiple PRLs are assigned to one single state, aggregating process should be performed before similarity measuring. For instance, the metformin state corresponds multiple PRLs, Function {\it krubor} aggregates these PRLs into one single PRL representing the metformin state.
+
+<<krubor>>=
+PRL <- krubor(PRLs[,c(1:4,8)])
+PRL[c(1:10)]
+@
+
+In most cases, we deal with many PRLs of multiple states in one time. These states have one or more corresponding PRLs. That is really boring to process them one by one. To avoid unnecessary inconvenience, Function {\it aggregate} aggregates the PRLs all together. The only thing we must do is to wrap the PRLs and the corresponding states with a ExpressionSet object, then call the {\it aggregate} function.
+
+<<aggregate>>=
+library(Biobase)
+rownames(states)=colnames(PRLs)
+phenodata=new("AnnotatedDataFrame", data = states)
+exampleSet=new("ExpressionSet", exprs=PRLs, phenoData=phenodata)
+summary(exampleSet)
+aggregatedSet=aggregate(exampleSet)
+summary(aggregatedSet)
+@
+
+\subsection{Similarity Measuring}
+
+After that, we obtain the aggregated PRLs with one PRL for one state. The 
+Once ranked lists was aggregated, users can use function {\it distances} to compute the distances among different biological states. It computes distances according to function {\it quickenrichmentscore}, users will obtain a distance-matrix by this function. This function has two arguments, the first argument is the PRL obtained by function {\it aggregate}, and the second argument is qlen value, which is the length of signature. We take qlen for 250 in our example. We will get a $6*6$ matrix corresponding to six compounds, the $m*n$ element represents the distance between $m$th and $n$th states.
+<<distances>>=
+d  <- distances(aggregatedSet,250)
+ES <- d[[1]]
+exprs(ES)
+distance <- d[[2]]
+exprs(distance)
+@
+
+\section{Implementation Details}
+
+
+Finally, using the GSEA algorithms ({\it distances}) to compute the distances among biological states.
+
+
+\subsection{Aggregating}
+
+In order to get a ranked list of genes for each treatment by aggregation, the distance of these lists must be calculated first, as follows: for the ranked lists with the same biological state, a measure of the distance between two ranked lists is computed using \emph{Spearman} algorithm, function \emph{FootruleMatrix} compute distances between any two ranked lists, and create a $n*n$ matrix, where n is the number of ranked lists. Next, merge the two or more ranked lists treated with the same biological state using \emph{Borda merging} algorithm. The function \emph{BMRankMerging}, merging two or more selected ranked lists into a new one ranked list, implements the \emph{Borda merging} algorithm. After all, function \emph{krubor} aggregate all ranked lists into one list to get a single ranked List with \emph{Kruskal} algorithm. 
+
+According to the \emph{Kruskal} algorithm method\citep{cormen1990introduction}, the aggregating algorithm searches for the two ranked lists with the smallest Spearman's Footrule distance first, and then merges them using the Borda Merging method, obtaining the new ranked list. Finally, the new list replace the two merged lists. This process restarts until only one list remains.
+
+For convenience, users can obtain a ranked list for each state by the function {\it aggregate} directly, which uses Sprearman, BordaMerging, and Kruskal algorithms to aggregate the ranked lists obtained with the same biological state by calling  \emph{FootruleMatrix}, \emph{BMRankMerging} and \emph{krubor} functions. The functions used in aggregation is described as below:
+
+1) Function \emph{FootruleMatrix} computes the pairwise distances between two ranked lists, \emph{PRLs} is composed of ten samples (preprocessed gene expression profiles), so the result should be a 10-10 matrix, m-n element in the matrix represents the distance between mth and nth sample.
+
+<<FootruleMatrix>>=
+SMDM <- FootruleMatrix(PRLs,1)
+SMDM
+@
+
+2) Function \emph{BMRankMerging} merges the two or more ranked lists, the order of merging is determined by the results of the FootruleMatrix. 
+
+<<BMRankMerging>>=
+outranking=BMRankMerging(PRLs[,c(1,2)])
+@ 
+
+3) Function \emph{krubor} aggregates all the input lists corresponding to the same biological state into one list.
+
+<<krubor>>=
+PRL <- krubor(PRLs[,c(1:3)])
+@
+
+4) Function \emph{aggregate} aggregates the ranked lists treated with the same compounds to a new ranked list.
+
+<<aggregate>>=
+aggregate(exampleSet)
+@
+
+\subsection{Similarity Measuring}
+
+Once a list had been obtained by aggregating ranked lists treated with the same biological state, we adopted a nonparametric, rank-based method called Gene Set Enrichment Analysis (GSEA)\citep{subramanian2005gene} to compute the pairwise distances between biological states.
+
+<<distances>>=
+PRL <- aggregate(exampleSet)
+d  <- distances(PRL,250)
+ES <- d[[1]]
+exprs(ES)
+distance <- d[[2]]
+exprs(distance)
+@
+
+Another function {\it integratePRL} is designed for adding new ranked list into existing data set without recalculation. The previous ES matrix and distance matrix are used as arguments.
+
+<<integratePRL>>=
+newPRL <- PRL[,2]
+d <- integratePRL(ES,PRL,newPRL,250)
+newES <- d[[2]]
+newdistance <- d[[3]]
+exprs(newES)
+exprs(newdistance)
+@ 
+
+\section*{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE>>=
+sessionInfo()
+@
+
+\bibliography{GeneExpressionSignature}
+
+\end{document}

@@ -1,0 +1,2 @@
+export(quickenrichmentscore,integratePRL,aggregate,distances,krubor,FootruleMatrix,BMRankMerging,SMfootrule,findclosestrank)
+       
