@@ -1,6 +1,6 @@
 Package: GeneExpressionSignature
 Title: Gene Expression Signature based Similarity Metric
-Version: 0.99.1
+Version: 1.0.0
 Date: 2011-09-07
 Author: Yang Cao 
 Maintainer: Yang Cao <amms.yang.cao@gmail.com>, Fei Li <pittacus@gmail.com>
