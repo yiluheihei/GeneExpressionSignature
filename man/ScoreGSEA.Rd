@@ -16,7 +16,7 @@ ScoreGSEA(MergingSet, SignatureLength,DisMeasurement=c("avg", "max"))
   \item{SignatureLength}{
 the length of "gene signature". In order to compute pairwise distances among samples, genes lists are ranked according to the gene expression ratio (fold change). And the "gene signature" includes the most up-regulated genes (near the top of the list) and the most down-regulated genes (near the bottom of the list).     
 }
-  \item{DisMeasurement}{
+  \item{ScoringDistance}{
 the distance measurements between PRLs: the Average Enrichment Score Distance (avg), and the Maximum Enrichment Score Distance (max).    
 }
 }
@@ -32,9 +32,9 @@ an distance-matrix, the max distance is more sensitive to weak similarities, pro
 data(exampleSet)
 
 # Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Iorio.RankMerging(exampleSet)
+MergingSet=Iorio.RankMerging(exampleSet,"Spearman")
 
 # get the distance matrix
-ds=ScoreGSEA(MergingSet,250,DisMeasurement="avg")
+ds=ScoreGSEA(MergingSet,250,"avg")
 }
 

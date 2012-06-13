@@ -1,6 +1,6 @@
 integratePRL <-
-function(ES,PRL,newPRL,SignatureLength,DisMeasurement=c("avg", "max")){
-        DisMeasurement=match.arg(DisMeasurement,c("avg","max"))
+function(ES,PRL,newPRL,SignatureLength,ScoringDistance=c("avg", "max")){
+        ScoringDistance=match.arg(ScoringDistance,c("avg","max"))
 	origpd=phenoData(PRL)
 	newpd=phenoData(newPRL)
 	#ES=exprs(ES)
@@ -31,7 +31,7 @@ function(ES,PRL,newPRL,SignatureLength,DisMeasurement=c("avg", "max")){
 	ES=as.matrix(ES)
 	distances=ES
 	distances=as.matrix(distances)
-        if (DisMeasurement=="avg")
+        if (ScoringDistance=="avg")
               distances = (distances+t(distances))/2
         else
               distances = pmax(distances+t(distances))

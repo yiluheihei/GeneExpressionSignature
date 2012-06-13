@@ -1,6 +1,6 @@
 ScorePGSEA <-
-function(MergingSet,SignatureLength,DisMeasurement=c("avg", "max")){
-    DisMeasurement=match.arg(DisMeasurement,c("avg","max"))
+function(MergingSet,SignatureLength,ScoringDistance=c("avg", "max")){
+    ScoringDistance=match.arg(ScoringDistance,c("avg","max"))
     PRLs=exprs(MergingSet)
     n=ncol(PRLs)
     m=nrow(PRLs)
@@ -27,7 +27,7 @@ function(MergingSet,SignatureLength,DisMeasurement=c("avg", "max")){
        pgscores=-pgscores
      } 
      rownames(pgscores)=colnames(pgscores)
-     if (DisMeasurement=="avg")
+     if (ScoringDistance=="avg")
        distances=1-(pgscores+t(pgscores))/2
      else
        distances=pmax(1-pgscores,t(1-pgscores))

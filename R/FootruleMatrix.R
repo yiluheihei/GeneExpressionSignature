@@ -1,5 +1,5 @@
 FootruleMatrix <-
-function(Rankings,distance=c("Spearman", "Kendall"),n){
+function(Rankings,MergingDistance=c("Spearman", "Kendall"),n){
 
         # Kendall distance,this source code is derived from R package RankAggreg
         Kendallfootrule <-function(x, y)
@@ -20,7 +20,7 @@ function(Rankings,distance=c("Spearman", "Kendall"),n){
 	   SMD
          }
 
-        distance <- match.arg(distance, c("Spearman", "Kendall"))
+        MergingDistance <- match.arg(MergingDistance, c("Spearman", "Kendall"))
 	nrank=ncol(Rankings);
 	if (length(Rankings)!=0){
 		SMDM=matrix(0,nrow=nrank,ncol=nrank);
@@ -28,7 +28,7 @@ function(Rankings,distance=c("Spearman", "Kendall"),n){
 			for (i in 1:(nrank-1)) {
 				for (j in (i+1):nrank){
 					#optimize
-                                        if(distance=="Spearman")
+                                        if(MergingDistance=="Spearman")
 					   t=SMfootrule(Rankings[,i],Rankings[,j])
                                         else
                                            t=Kendallfootrule(Rankings[,i],Rankings[,j])

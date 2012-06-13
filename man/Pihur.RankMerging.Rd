@@ -6,10 +6,12 @@
 Merging the assay data according to phenotypic data of the input ExpressionSet.  Each group of the ranked lists with the same phenotypic data is aggregated into a single list, return it as an ExpressionSet object.
 }
 \usage{
-Pihur.RankMerging(exprSet, ...)
+Pihur.RankMerging(exprSet, MergingDistance = c("Spearman", "Kendall"), ...)
 }
 \arguments{
   \item{exprSet}{an ExpressionSet object, each column of assay data represents a ranked list obtained by preprocessing the corresponding gene expression profile, and phenotypic data represents the short description (characteristics of gene expression profile, such as the drug type, the disease state) about the assay data.
+}
+  \item{MergingDistance}{distance to be used which "measures" the similarity of ordered lists, the default is "Spearman"
 }
   \item{\dots}{additional arguments can be passed to the internal procedures
 }
@@ -23,7 +25,7 @@ The function has the same function with Iorio.RankMerging,both this two function
 data(exampleSet)
 
 ## Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Pihur.RankMerging(exampleSet[1:12])
+MergingSet=Pihur.RankMerging(exampleSet[1:12],"Spearman")
 
 }
 

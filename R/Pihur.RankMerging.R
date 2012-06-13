@@ -1,7 +1,7 @@
 Pihur.RankMerging <-
-function(exprSet,...){
+function(exprSet,MergingDistance=c("Spearman", "Kendall"),...){
         PRLs=exprs(exprSet)
-
+        MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall"))
         # simple data preprocessing
         for (i in 1:ncol(PRLs))
            PRLs[,i]=as.matrix(rank(PRLs[,i]))
@@ -38,10 +38,10 @@ function(exprSet,...){
                        R=t(R)
                        if (gene_num>10){
                             if (gene_num<100)
-                                R=RankAggreg(R,gene_num,verbose=FALSE, ...)
+                                R=RankAggreg(R,gene_num,weights=NULL,distance=MergingDistance,verbose=FALSE, ...)
                             else  stop("the size of rank aggregation is too large, please select the Iorio's method")
                        }
-                       else  R=BruteAggreg(R,gene_num, ...)
+                       else  R=BruteAggreg(R,gene_num,weights=NULL,distance=MergingDistance, ...)
                        R=as.matrix(R$top.list) 
                  }
                FPRL=cbind(FPRL,R)

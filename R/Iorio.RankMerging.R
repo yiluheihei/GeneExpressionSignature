@@ -1,7 +1,7 @@
 Iorio.RankMerging <-
-function(exprSet,distance=c("Spearman", "Kendall")){
+function(exprSet,MergingDistance=c("Spearman", "Kendall")){
 	PRLs=exprs(exprSet)
-        distance <- match.arg(distance, c("Spearman", "Kendall")) 
+        MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall")) 
 
         # simple data preprocessing
         for (i in 1:ncol(PRLs))
@@ -33,7 +33,7 @@ function(exprSet,distance=c("Spearman", "Kendall")){
 		}
 		R=PRLs[,tmp_indx];
 		R=as.matrix(R)
-		R=krubor(distance,R)
+		R=krubor(MergingDistance,R)
 		FPRL=cbind(FPRL,R)
 		FPRL=as.matrix(FPRL)
 	}

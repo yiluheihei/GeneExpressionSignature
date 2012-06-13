@@ -8,7 +8,7 @@ Compute pairwise distances between sample according to their (Prototype Ranked L
 is the length of PRL. 
 }
 \usage{
-ScorePGSEA(MergingSet, SignatureLength, DisMeasurement=c("avg", "max"))
+ScorePGSEA(MergingSet, SignatureLength,  ScoringDistance=c("avg", "max"))
 }
 \arguments{
   \item{MergingSet}{an ExpressionSet object. The assay data represents the PRLs of the samples, each column represents one PRL. The number of sample must be greater than 1, oherwise, this function is not meaningful.
@@ -17,7 +17,7 @@ ScorePGSEA(MergingSet, SignatureLength, DisMeasurement=c("avg", "max"))
 the length of "gene signature". In order to compute pairwise distances among samples, genes lists are ranked according to the gene expression ratio (fold change). And the "gene signature" includes the most up-regulated genes (near the top of the list) and the most down-regulated genes (near the bottom of the list).     
 
 }
-\item{DisMeasurement}{
+\item{ScoringDistance}{
 the distance measurements between PRLs: the Average Enrichment Score Distance (avg), or the Maximum Enrichment Score Distance (max).    
 }
 }
@@ -30,9 +30,9 @@ This function has the same function with ScoreGSEA, just with different methods.
 data(exampleSet)
 
 # Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Iorio.RankMerging(exampleSet)
+MergingSet=Iorio.RankMerging(exampleSet,"Spearman")
 
 # get the distance matrix
-ds=ScorePGSEA(MergingSet,250,DisMeasurement="avg")
+ds=ScorePGSEA(MergingSet,250, ScoringDistance="avg")
 }
 

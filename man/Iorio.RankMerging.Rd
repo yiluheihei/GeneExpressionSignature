@@ -4,17 +4,17 @@
 Merging the ranker lists with the same labels of the biological states into a single list with the Iorio's method.
 }
 \description{
-Merging the assay data according to phenotypic data of the input ExpressionSet.  Each group of the ranked lists with the same phenotypic data is aggregated into a single list, return it as an ExpressionSet object.
+Merging the assay data according to phenotypic data of the input ExpressionSet. Each group of the ranked lists with the same phenotypic data is aggregated into a single list, return it as an ExpressionSet object.
 }
 \usage{
-Iorio.RankMerging(exprSet, distance = c("Spearman", "Kendall"))
+Iorio.RankMerging(exprSet, MergingDistance = c("Spearman", "Kendall"))
 }
 \arguments{
   \item{exprSet}{
 an ExpressionSet object, each column of assay data represents a ranked list obtained by preprocessing the corresponding gene expression profile, and phenotypic data represents the short description (characteristics of gene expression profile, such as the drug type, the disease state) about the assay data.
 }
-  \item{distance}{
-distance to be used which "measures" the similarity of ordered lists, the default is Spearman
+  \item{MergingDistance}{
+distance to be used which "measures" the similarity of ordered lists, the default is "Spearman"
 }
 }
 \details{

@@ -1,6 +1,6 @@
 ScoreGSEA <-
-function(MergingSet,SignatureLength,DisMeasurement=c("avg", "max")){
-        DisMeasurement=match.arg(DisMeasurement,c("avg","max"))
+function(MergingSet,SignatureLength,ScoringDistance=c("avg", "max")){
+        ScoringDistance=match.arg(ScoringDistance,c("avg","max"))
 	ES=matrix(0) 
 	FPRL=MergingSet
 	phenodata=phenoData(MergingSet)
@@ -15,7 +15,7 @@ function(MergingSet,SignatureLength,DisMeasurement=c("avg", "max")){
 	for (i in 2:FPRLcol){
 		PRL=FPRL[,i]
 		#PRL=as.matrix(PRL);
-		d=integratePRL(ES,KBR,PRL,SignatureLength,DisMeasurement)
+		d=integratePRL(ES,KBR,PRL,SignatureLength,ScoringDistance)
 		ES=d[[2]]
 		KBR=d[[1]]
 	}

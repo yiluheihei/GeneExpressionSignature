@@ -1,5 +1,5 @@
 krubor <-
-function(distance=c("Spearman", "Kendall"),...){
+function(MergingDistance=c("Spearman", "Kendall"),...){
 
         # find the two closest ranks and merge them into a rank
         findclosestrank <-function(SMDM)
@@ -32,14 +32,14 @@ function(distance=c("Spearman", "Kendall"),...){
 	   return(as.matrix(outrank))
         }
       
-      distance <- match.arg(distance, c("Spearman", "Kendall")) 
+      MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall")) 
 	R=data.frame(...)
 	R=as.matrix(R)
 	R=unique(R,MARGIN=2)
 	R=as.matrix(R)
 	nrank = ncol(R);
 	while(nrank!=0) {
-		SMDM=FootruleMatrix(R,distance,1)
+		SMDM=FootruleMatrix(R,MergingDistance,1)
     		SMDM=as.matrix(SMDM)
 		SMDM[lower.tri(SMDM)]=0
 		if (nrank==1)
