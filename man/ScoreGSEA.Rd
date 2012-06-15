@@ -8,7 +8,7 @@ Compute pairwise distances between sample according to their (Prototype Ranked L
 is the length of PRL. 
 }
 \usage{
-ScoreGSEA(MergingSet, SignatureLength,DisMeasurement=c("avg", "max"))
+ScoreGSEA(MergingSet, SignatureLength,ScoringDistance=c("avg", "max"))
 }
 \arguments{
   \item{MergingSet}{an ExpressionSet object. The assay data represents the PRLs of the samples, each column represents one PRL. The number of sample of this argument must be greater than 1, otherwise, this function is not meaningful.

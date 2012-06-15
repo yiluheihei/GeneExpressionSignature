@@ -40,6 +40,6 @@ additional arguments can be passed to the internal procedures
 data(exampleSet)
 
 #distance scoring
-SignatureDistance(exampleSet,SignatureLength=250,MergingMethod="Iorio",MergingDistance="Spearman", Scoring-Method="GSEA",ScoringDistance="avg")
+SignatureDistance(exampleSet,SignatureLength=250,MergingMethod="Iorio",MergingDistance="Spearman", ScoringMethod="GSEA",ScoringDistance="avg")
 }
 
