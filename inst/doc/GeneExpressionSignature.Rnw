@@ -125,7 +125,7 @@ ds[1:5,1:5]
 
 \section{Futher Analysis}
 
-To illustrate how to use GeneExpressionSignature in analysis of gene expression signatures, affinity propagation clustering can be used to group these biological states by the similarity of gene signature. Affinity propagation cluster algorithm iteratively searches for optimal clustering by maximizing an objective function called net similarity. Here, we use function in R apcluster package to classify the 15 biological states into 3 groups by clusting the matrix "ds" in the section 2.4. In this step, R package apcluster should also be installed on your computer.
+To illustrate how to use GeneExpressionSignature in analysis of gene expression signatures, affinity propagation clustering can be used to group these biological states by the similarity of gene signature. Affinity propagation cluster algorithm iteratively searches for optimal clustering by maximizing an objective function called net similarity. Here, we use function in R apcluster package to classify the 15 biological states into 3 groups by clusting the matrix `ds` in the section 2.4. In this step, R package apcluster should also be installed on your computer.
 
 Cytoscape is used to visualize the result of clustering. In the network, nodes denotes different compounds (cell states treated with different compounds), and the edge means the distance between these two compounds is lower than a threshold, which is 0.68 here. Different colors denote different groups, as the classification of compounds. We note that the largest group is numbered 9 nodes, and the other two consist of 3 nodes for each group.
 
