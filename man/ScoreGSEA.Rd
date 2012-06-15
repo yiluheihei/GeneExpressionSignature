@@ -32,9 +32,9 @@ an distance-matrix, the max distance is more sensitive to weak similarities, pro
 data(exampleSet)
 
 # Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Iorio.RankMerging(exampleSet,"Spearman")
+MergingSet=Iorio.RankMerging(exampleSet,MergingDistance="Spearman")
 
 # get the distance matrix
-ds=ScoreGSEA(MergingSet,250,"avg")
+ds=ScoreGSEA(MergingSet,SignatureLength=250,ScoringDistance="avg")
 }
 

@@ -25,7 +25,7 @@ The function has the same function with Iorio.RankMerging,both this two function
 data(exampleSet)
 
 ## Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Pihur.RankMerging(exampleSet[1:12],"Spearman")
+MergingSet=Pihur.RankMerging(exampleSet[1:12],MergingDistance="Spearman")
 
 }
 

@@ -26,7 +26,7 @@ The krubor function is used in the aggregating procedure. And the following meth
 data(exampleSet)
 
 ## Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Iorio.RankMerging(exampleSet,"Spearman")
+MergingSet=Iorio.RankMerging(exampleSet,MergingDistance="Spearman")
 
 }
 
