@@ -1,2 +1,2 @@
-export(Iorio.RankMerging,Pihur.RankMerging,ScorePGSEA,ScoreGSEA,SignatureDistance)
+export(getRLs,RankMerging,ScorePGSEA,ScoreGSEA,SignatureDistance)
        

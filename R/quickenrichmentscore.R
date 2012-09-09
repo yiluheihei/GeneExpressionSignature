@@ -24,8 +24,6 @@ function(S,S1,List){
 	RS = Phit-Pmiss;
 
 	Or_list2=Or_list
-	#Or_list=sort(Or_list);
-	#Or_list=as.matrix(Or_list)
 	Rank=order(Or_list2)
 	Rank=as.matrix(Rank) 
 	N=length(Rank)

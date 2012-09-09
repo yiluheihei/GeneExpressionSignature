@@ -3,7 +3,6 @@ function(ES,PRL,newPRL,SignatureLength,ScoringDistance=c("avg", "max")){
         ScoringDistance=match.arg(ScoringDistance,c("avg","max"))
 	origpd=phenoData(PRL)
 	newpd=phenoData(newPRL)
-	#ES=exprs(ES)
 	PRL=exprs(PRL)
 	prpd=new("AnnotatedDataFrame",data=rbind(as(origpd,"data.frame"),as(newpd,"data.frame")))
 	newPRL=exprs(newPRL)
@@ -34,7 +33,7 @@ function(ES,PRL,newPRL,SignatureLength,ScoringDistance=c("avg", "max")){
         if (ScoringDistance=="avg")
               distances = (distances+t(distances))/2
         else
-              distances = pmax(distances+t(distances))
+              distances = pmax(distances,t(distances))/2
 	distances = 1-distances
 	colnames(ES)=rownames(rbind(as(origpd,"data.frame"),as(newpd,"data.frame")))
 	colnames(PRL)=colnames(ES)

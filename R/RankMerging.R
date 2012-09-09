@@ -1,4 +1,4 @@
-Iorio.RankMerging <-
+RankMerging <-
 function(exprSet,MergingDistance=c("Spearman", "Kendall")){
 	PRLs=exprs(exprSet)
         MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall")) 

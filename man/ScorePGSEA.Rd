@@ -8,31 +8,35 @@ Compute pairwise distances between sample according to their (Prototype Ranked L
 is the length of PRL. 
 }
 \usage{
-ScorePGSEA(MergingSet, SignatureLength,  ScoringDistance=c("avg", "max"))
+ScorePGSEA(MergingSet, SignatureLength, ScoringDistance = c("avg", "max"), p.value = F)
 }
 \arguments{
-  \item{MergingSet}{an ExpressionSet object. The assay data represents the PRLs of the samples, each column represents one PRL. The number of sample must be greater than 1, oherwise, this function is not meaningful.
+  \item{MergingSet}{
+an ExpressionSet object. The assay data represents the PRLs of the samples, each column represents one PRL. The number of sample must be greater than 1, oherwise, this function is not meaningful.
 }
   \item{SignatureLength}{
-the length of "gene signature". In order to compute pairwise distances among samples, genes lists are ranked according to the gene expression ratio (fold change). And the "gene signature" includes the most up-regulated genes (near the top of the list) and the most down-regulated genes (near the bottom of the list).     
-
+the length of "gene signature". In order to compute pairwise distances among samples, genes lists are ranked according to the gene expression ratio (fold change). And the "gene signature" includes the most up-regulated genes (near the top of the list) and the most down-regulated genes (near the bottom of the list).   
 }
-\item{ScoringDistance}{
+  \item{ScoringDistance}{
 the distance measurements between PRLs: the Average Enrichment Score Distance (avg), or the Maximum Enrichment Score Distance (max).    
+}
+  \item{p.value}{
+logical, if TRUE return a matrix of p.values of the distance matrix, default FALSE 
 }
 }
 \details{
 This function has the same function with ScoreGSEA, just with different methods.
 }
-\seealso{\code{\link{ScoreGSEA}}, \code{\link{SignatureDistance}}}
+\seealso{
+\code{\link{ScoreGSEA}}, \code{\link{SignatureDistance}}
+}
 \examples{
 # load the sample expressionSet
 data(exampleSet)
 
 # Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=Iorio.RankMerging(exampleSet,MergingDistance="Spearman")
+MergingSet=RankMerging(exampleSet,"Spearman")
 
 # get the distance matrix
-ds=ScorePGSEA(MergingSet,SignatureLength=250,ScoringDistance="avg")
+ds=ScorePGSEA(MergingSet,250, ScoringDistance="avg")
 }
-
