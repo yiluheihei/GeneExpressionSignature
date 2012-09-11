@@ -129,7 +129,7 @@ to calculate average rank for each ranked list and then the second step is to co
 
 Once ranked lists with same biological states are merged to one single PRL, Gene Set Enrichment Analysis (GSEA) and Parametric Gene Set Enrichment Analysis (PGSEA) are adopted to measure the similarity among these PRLs. 
 
-GSEA algorithm\citep{subramanian2005gene} is a nonparametric, rank-based method for similarity measuring to determine whether a priori defined set of genes shows statistically significant, concordant differences between two biological states. PGSEA algorithm is a modified gene set enrichment analysis method based on a parametric statistical analysis model, and we use the functions in R package PGSEA for similarity measuring. Both of these two functions gives the corresponding p value, function ScoreGSEA calcutes the empirical p values from Monte Carlo Procedures\citep
+GSEA algorithm\citep{subramanian2005gene} is a nonparametric, rank-based method for similarity measuring to determine whether a priori defined set of genes shows statistically significant, concordant differences between two biological states. PGSEA algorithm is a modified gene set enrichment analysis method based on a parametric statistical analysis model, and we use the functions in R package PGSEA for similarity measuring. Both of these two functions gives the corresponding p value, function ScoreGSEA calcutes the empirical p values from Monte Carlo Procedures\citep{north2002note}.
 
 <<ScoreGSEA>>=
 ds <- ScoreGSEA(MergingSet,250,"avg")
