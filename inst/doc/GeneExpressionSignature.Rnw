@@ -80,7 +80,7 @@ levels(as(phenoData(exampleSet),"data.frame")[,1])
 Rank merging process will generate a mergingSet of 15 PRLs from 50 paired expression profiles with each PRL corresponding one of 15 compounds respectively.
 
 <<RankMerging>>=
-MergingSet <- RankMerging(exampleSet,"Spearman")
+MergingSet <- RankMerging(exampleSet,"Spearman",weighted=TRUE)
 show(MergingSet)
 @
 
@@ -100,7 +100,7 @@ ds[1:5,1:5]
 As we mentioned above, four algorithms implemented as functions {\it getRLs}, {\it RankMerging}, {\it ScoreGSEA} and {\it ScorePGSEA}, one is for data preprocessing, one called Iorio algorithm is for rank merging, the other two algorithms called GSEA and PGSEA are for similarity measuring. Moreover, function {\it SignatureDistance} is provided to serve as a single entry and easy access point to rank merging and similarity measuring, which runs through the  including rank merging and scoring, and is recommended to use in most cases. Data ranking is not integration into this funciton for no standard methods for data preprocessing and gene-expression data types is uncertain. Furthermore, there is no effective method to integrate data from different platforms. Function {\it getRLs} which takes the method in C-MAP for data preprocessing just for reference.
 
 <<SignatureDistance>>=
-SignatureDistance(exampleSet,SignatureLength=250,MergingDistance="Spearman",ScoringMethod="GSEA",ScoringDistance="avg")
+SignatureDistance(exampleSet,SignatureLength=250,MergingDistance="Spearman",ScoringMethod="GSEA",ScoringDistance="avg",weighted=TRUE)
 ds[1:5,1:5]
 @
 
@@ -115,7 +115,7 @@ According to the \emph{Kruskal} algorithm method \citep{cormen1990introduction},
 For convenience, users can directly obtain a PRL for each state by the function {\it Iorio.RankMerging}, which uses Sprearman, BordaMerging, and Kruskal algorithms to aggregate the ranked lists obtained with the same biological state. For instance, we will merge the sample data which with 50 samples into 15 samples.
 
 <<RankMerging>>=
-MergingSet <- RankMerging(exampleSet,"Spearman")
+MergingSet <- RankMerging(exampleSet,"Spearman",weighted=TRUE)
 show(MergingSet)
 @
 

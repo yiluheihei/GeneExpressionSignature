@@ -7,7 +7,7 @@ Merging the ranker lists with the same labels of the biological states into a si
 Merging the assay data according to phenotypic data of the input ExpressionSet. Each group of the ranked lists with the same phenotypic data is aggregated into a single list, return it as an ExpressionSet object.
 }
 \usage{
-RankMerging(exprSet, MergingDistance = c("Spearman", "Kendall"))
+RankMerging(exprSet, MergingDistance = c("Spearman", "Kendall"), weighted = TRUE)
 }
 \arguments{
   \item{exprSet}{
@@ -15,6 +15,9 @@ an ExpressionSet object, each column of assay data represents a ranked list obta
 }
   \item{MergingDistance}{
 distance to be used which "measures" the similarity of ordered lists, the default is "Spearman"
+}
+  \item{weighted}{
+there are tow rank merging approaches for two cases: if weighted=FALSE, all ranked list with the same biological state are treated equally important, a simple but useful method average ranking technique is selected; otherwise, weighted=TRUE, each individual ranked lists has its own ranked weights, this takes the iterative rank-aggregating algorithm, default is TRUE.
 }
 }
 \details{
@@ -26,7 +29,7 @@ The krubor function is used in the aggregating procedure. And the following meth
 data(exampleSet)
 
 ## Merging each group of the ranked lists in the exampleSet with the same phenotypic data into a single PRL
-MergingSet=RankMerging(exampleSet,"Spearman")
+MergingSet=RankMerging(exampleSet,"Spearman",weighted=TRUE)
 
 }
 

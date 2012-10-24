@@ -1,5 +1,5 @@
 RankMerging <-
-function(exprSet,MergingDistance=c("Spearman", "Kendall")){
+function(exprSet,MergingDistance=c("Spearman", "Kendall"),weighted=TRUE){
 	PRLs=exprs(exprSet)
         MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall")) 
 
@@ -33,7 +33,12 @@ function(exprSet,MergingDistance=c("Spearman", "Kendall")){
 		}
 		R=PRLs[,tmp_indx];
 		R=as.matrix(R)
-		R=krubor(MergingDistance,R)
+                if (weighted)
+		    R=krubor(MergingDistance,R)
+                else{
+                    R=rowMeans(R,na.rm=T,dims=1)
+                    R=rank(R,ties.method="first")
+                }
 		FPRL=cbind(FPRL,R)
 		FPRL=as.matrix(FPRL)
 	}

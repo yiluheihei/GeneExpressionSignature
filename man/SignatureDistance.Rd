@@ -7,7 +7,7 @@ Compute pairwise distances comprehensively.
 This function integrated the function for rank merging and distance scoring, we can do the rank merging and distance scoring simply with it.
 }
 \usage{
-SignatureDistance(exprSet, SignatureLength, MergingDistance = c("Spearman", "Kendall"), ScoringMethod = c("GSEA", "PGSEA"), ScoringDistance = c("avg", "max"), ...)
+SignatureDistance(exprSet, SignatureLength, MergingDistance = c("Spearman", "Kendall"), ScoringMethod = c("GSEA", "PGSEA"), ScoringDistance = c("avg", "max"), weighted = TRUE, ...)
 }
 \arguments{
   \item{exprSet}{
@@ -25,6 +25,9 @@ method to be used to perform distance scoring, GSEA or PGSEA
   \item{ScoringDistance}{
 the distance measurements between PRLs: the Average Enrichment Score Distance (avg), and the Maximum Enrichment Score Distance (max). 
 }
+  \item{weighted}{
+there are tow rank merging approaches for two cases: if weighted=FALSE, all ranked list with the same biological state are treated equally important, a simple but useful method average ranking technique is selected; otherwise, weighted=TRUE, each individual ranked lists has its own ranked weights, this takes the iterative rank-aggregating algorithm, default is TRUE.
+}
   \item{\dots}{
 additional arguments can be passed to the internal procedures
 }
@@ -38,5 +41,5 @@ additional arguments can be passed to the internal procedures
 data(exampleSet)
 
 #distance scoring
-SignatureDistance(exampleSet,SignatureLength=250,MergingDistance="Spearman", ScoringMethod="GSEA",ScoringDistance="avg")
+SignatureDistance(exampleSet,SignatureLength=250,MergingDistance="Spearman", ScoringMethod="GSEA",ScoringDistance="avg",weighted=TRUE)
 }
