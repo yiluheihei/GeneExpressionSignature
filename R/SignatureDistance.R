@@ -6,7 +6,7 @@ function(exprSet,SignatureLength,MergingDistance=c("Spearman", "Kendall"),
          ScoringDistance=match.arg(ScoringDistance,c("avg","max"))
          MergedRank=RankMerging(exprSet,MergingDistance,weighted)
          if (ScoringMethod=="GSEA")
-             return(ScoreGSEA(MergedRank,SignatureLength,ScoringDistance))
+             return(ScoreGSEA(MergedRank,SignatureLength,ScoringDistance,...))
          else
-             return(ScorePGSEA(MergedRank,SignatureLength,ScoringDistance))
+             return(ScorePGSEA(MergedRank,SignatureLength,ScoringDistance,...))
 }
