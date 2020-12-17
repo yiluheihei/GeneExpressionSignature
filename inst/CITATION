@@ -1,0 +1,31 @@
+citHeader("To cite GeneExpressionSignature in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = paste(
+      "GeneExpressionSignature: an R package for discovering",
+      "functional connections using gene expression signatures"
+  ),
+  author   = personList(
+      as.person("Fei Li"),
+      as.person("Yang Cao"),
+      as.person("Lu Han"),
+      as.person("Xiuliang Cui"),
+      as.person("Dafei Xie"),
+      as.person("Shengqi Wang"),
+      as.person("Xiaochen Bo")
+  ),
+  journal  = "OMICS: A Journal of Integrative Biology",
+  year     = "2013",
+  volume   = "17",
+  number   = "2",
+  pages    = "116-118",
+  PMID     = "23374109",
+  doi      = "10.1089/omi.2012.0087",
+  textVersion = paste(
+      "Li, Fei, Yang Cao, Lu Han, Xiuliang Cui, Dafei Xie, Shengqi Wang,", 
+      "and Xiaochen Bo. GeneExpressionSignature: an R package for discovering",
+      "functional connections using gene expression signatures.",
+      "Omics: a journal of integrative biology 2013 17 (2): 116-118."
+  )
+)

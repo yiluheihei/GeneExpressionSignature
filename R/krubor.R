@@ -1,64 +1,62 @@
-krubor <-
-function(MergingDistance=c("Spearman", "Kendall"),...){
-
-        # find the two closest ranks and merge them into a rank
-        findclosestrank <-function(SMDM)
-        {
-	     if (length(SMDM)!=0){
-		   m=apply(SMDM,2,min);
-		   i=apply(SMDM,2,which.min);
-		   j=which.min(m);
-	 	   m=min(m);
-		   i=i[j];
- 	      }
-	     else{
-		stop("zero-length SMDM is illegal")
-	     }
-	     list(m,i,j)
+krubor <- function(MergingDistance = c("Spearman", "Kendall"), ...) {
+    MergingDistance <- match.arg(MergingDistance, c("Spearman", "Kendall"))
+    r <- data.frame(...)
+    r <- as.matrix(r)
+    r <- unique(r, MARGIN = 2)
+    r <- as.matrix(r)
+    nrank <- ncol(r)
+    while (nrank != 0) {
+        smdm <- FootruleMatrix(r, MergingDistance, 1)
+        smdm <- as.matrix(smdm)
+        smdm[lower.tri(smdm)] <- 0
+        if (nrank == 1) {
+            nrank <- 0
+        } else {
+            smdm[smdm == 0] <- "inf"
+            mij <- find_closest_rank(smdm)
+            i <- mij[[2]]
+            j <- mij[[3]]
+            r1 <- r[, i]
+            r2 <- r[, j]
+            r12 <- cbind(r1, r2)
+            r12 <- as.matrix(r12)
+            newrank <- bm_rank_merging(r12)
+            newrank <- as.matrix(newrank)
+            nrank <- nrank - 1
+            r <- r[, c(-i, -j)]
+            r <- cbind(r, newrank)
         }
+    }
+    r
+}
 
-       # Borda Mering method  
-       BMRankMerging <-function(rankings)
-       {
-	   if (ncol(rankings)>1){
-		majorities=rowSums(rankings);
-		tmp=sort(majorities);
-		sidxs=order(majorities);
-		tmp=sort(sidxs);
-		outrank=order(sidxs)
-	    }
-	   else
-		outrank=rankings
-	   return(as.matrix(outrank))
-        }
-      
-      MergingDistance<- match.arg(MergingDistance, c("Spearman", "Kendall")) 
-	R=data.frame(...)
-	R=as.matrix(R)
-	R=unique(R,MARGIN=2)
-	R=as.matrix(R)
-	nrank = ncol(R);
-	while(nrank!=0) {
-		SMDM=FootruleMatrix(R,MergingDistance,1)
-    		SMDM=as.matrix(SMDM)
-		SMDM[lower.tri(SMDM)]=0
-		if (nrank==1)
-			nrank=0
-		else{
-			SMDM[SMDM==0]='inf'
-			mij=findclosestrank(SMDM)
-			i=mij[[2]]
-			j=mij[[3]]
-			R1=R[,i];
-			R2=R[,j];
-			R12=cbind(R1,R2);
-			R12=as.matrix(R12)
-			newrank= BMRankMerging(R12);
-			newrank=as.matrix(newrank)
-			nrank =nrank-1;
-			R=R[,c(-i,-j)];
-			R=cbind(R,newrank);
-		}
-	}
-	R
+
+# find the two closest ranks and merge them into a rank
+find_closest_rank <- function(smdm) {
+    if (length(smdm) != 0) {
+        m <- apply(smdm, 2, min)
+        i <- apply(smdm, 2, which.min)
+        j <- which.min(m)
+        m <- min(m)
+        i <- i[j]
+    }
+    else {
+        stop("zero-length smdm is illegal")
+    }
+    list(m, i, j)
+}
+
+# Borda Mering
+bm_rank_merging <- function(rankings) {
+    if (ncol(rankings) > 1) {
+        majorities <- rowSums(rankings)
+        tmp <- sort(majorities)
+        sidxs <- order(majorities)
+        tmp <- sort(sidxs)
+        outrank <- order(sidxs)
+    }
+    else {
+        outrank <- rankings
+    }
+    return(as.matrix(outrank))
 }
